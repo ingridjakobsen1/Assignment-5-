@@ -1,0 +1,119 @@
+---
+title: "Arbeidskrav 5"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+library(exscidata)
+library(tidyverse)
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(knitr)
+library(kableExtra)
+
+data("dxadata")
+dat <- dxadata %>% ##Endre tabellen for å gjøre utregninger
+   select(participant, time, sex, multiple, single, include, lean.left_leg, lean.right_leg)%>%
+  pivot_longer(names_to = "leg",
+               values_to = "lean.mass",
+               cols = lean.left_leg:lean.right_leg) %>%
+  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"),
+         sets = if_else(multiple == leg, "multiple", "single"))%>%
+  select(participant, time, sex, sets, leg, lean.mass)%>%
+  
+  pivot_wider(names_from = time, ##Regner ut prosentvis endring 
+              values_from = lean.mass) %>%
+  mutate(lbm.change = post - pre) %>%
+  
+  print()
+
+dxadata %>%   # Regner ut gjennomsnittlig prosentvis økning per gruppe
+  group_by(sets) %>%
+  summarise(m = mean(prosentvis.endring),
+            sd = sd(prosentvis.endring)) 
+
+
+m0 <- lm(post ~ pre + sets + sex, data = dat)
+m1 <- lmerTest::lmer(post ~ pre + sets + sex + (1|participant), data = dat)
+m2 <- lme4::lmer(post ~ pre + sex + sets + (1|participant), data = dat)
+
+summary(m0)
+summary(m2)
+summary(m1)
+
+confint(m2)
+plot(m2)
+plot(m1)
+plot(m0)
+
+
+
+```
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=TRUE, results="hide", fig.cap = "Figur 1 viser prosentvis økning ved multiple- sett og singe- sett"}
+
+
+
+
+  
+
+
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+library(exscidata)
+library(tidyverse)
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(knitr)
+library(kableExtra)
+library(flextable)
+
+styrke <- strengthvolume %>%
+  group_by(exercise) %>%
+  mutate(scaled.load = load / max(load, na.rm = TRUE)) %>%
+  group_by(participant, time, sex, sets) %>%
+  summarise(combined.load = mean(scaled.load, na.rm = TRUE)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = time, 
+              values_from = combined.load)%>%
+  mutate(endring = ((post - pre) / pre) * 100)%>%
+  print()
+
+styrke%>% ## Prosentvis endring i gjennomsnitt
+  filter(!is.na(post))%>%
+  group_by(sets)%>%
+  summarise(m = mean(endring),
+            sd = sd(endring))
+
+ lm1 <- lm(post ~ pre + sex + sets, data = styrke)
+  summary(lm1)
+  plot(lm1)
+  
+styrkeplot <- strengthvolume %>% ## Endre tabellen for å gjøre utregninger
+  group_by(exercise) %>%
+  mutate(scaled.load = load / max(load, na.rm = TRUE))%>%
+  group_by(participant, time, sex, sets)%>%
+  summarise(combined.load = mean(scaled.load, na.rm = TRUE))%>%
+  ungroup()
+
+ styrkeplot%>% ## Figur som viser resultater pre- og posttest, per gruppe
+      filter(!is.na(combined.load), time == factor(time, levels = c("pre", "post"))) %>%
+  mutate(time = factor(time, levels = c("pre", "post")),
+        group = factor(sets, levels = c("single", "multiple")) %>%
+          
+ ggplot(aes(time, combined.load, group = paste(participant, sets), color = sets)) + geom_line() + theme_minimal() 
+
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+```
+
