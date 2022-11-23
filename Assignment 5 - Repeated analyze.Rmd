@@ -1,12 +1,48 @@
 ---
 title: "Arbeidskrav 5"
-output: html_document
+Author: Ingrid Jakobsen
+output: 
+ word_document: default
+  pdf_document: default
+  html_document: default 
+reference_docx: reference.doxc
 date: "`r Sys.Date()`"
+bibliography: references.bib
 ---
+# Introduksjon
+I denne oppgaven er målet å analysere og diskutere ulike artikler, samt undersøke effekten av styrketrening på muskelstyrke og muskelvekst. Styrketrening blir ansett som den aller mest effektive måten å oppnå økt muskelhypetrofi og muskelvekst på [Souza2020]. Selv om det er ansett som den mest effektive måten å oppnå økt muskelhypertrofi og muskelvekst, er det likevel en del faktorer som må taes hensyn til; type trening, treningsvolum, treningsfrekvens og intensitet.
 
+# Metode
+## Forsøkspersoner
+I denne studien deltok det totalt 41 kvinner og menn, i alderen 18-40 år. Det viktigste inklusjonskriteriet var at personene ikke røyket, mens eksklusjonskriteriene var intoleranse mot lokalbedøvelse, treningshistorikk som bredte seg over mer enn én styrkeøkt i uka de siste 12 månedene, nedsatt muskelstyrke grunnet skader og medisinbruk som kunne påvirke resultatet.
+Underveis i studien ble 7 deltakere utelukket, da de ikke møtte kravet om minst 85% deltakelse. 
+På baseling var det ingen signifikant forskjell mellom gruppene som hverken kunne føre til fordeler eller ulemper.
+
+##Treningsprotokoll
+Det ble laget skreddersydde oppvarmingsrutiner før alle styrkeøktene. Den bestod av 5 minutter sykling, og henholdsvis 10 repetisjoner med egen kroppsvekt på øvelsene pushups, situps, rygghev og knebøy, samt 10 repetisjoner på 50% av 1RM på hver øvelse som skulle utføres i programmet. 
+Beinøvelsene ble gjennomført i en gitt rekkefølge; ettbeins beinpress, knefleksjon og kneekstensjon, og de ble utført som enten single ellet multiple sett. 
+Etter at beinøvelsene unnagjort gjennomførte deltakerne to sett av bilateral benkpress, nedtrekk, samt enten skulderpress eller sittende roing.
+Pausetiden mellom settene lå mellom 90-180 sekunder.
+Intensiteten på treningsøktene hadde en progressiv økning gjennom hele treningsperioden (10RM de første to ukene, 8RM i tre uker og 7RM i syv uker). Det var minst 48 timer med restitusjon mellom hver økt med maksimal intensitet, og 24 timer restitusjon mellom hver økt med submaksimal styrke. For å hjelpe til med og starte restitusjonen ble det gitt en standardisert drikke etter hver øvelse.   
+
+Maksimal styrke ble beskrevet som 1RM i ettbeins beinpress og kneekstensjon. Før testen ble det gjennomført en spesifikk oppvarming. 1RM ble funnet ved å progressivt øke motstanden til deltakerne ikke lenger klarte å løfte vekten. Alle deltakere ble tildelt 4-6 forsøk. 
+
+Tverrsnittarelaet til musklene i quadricepsgruppen (vastus lateralis, medialis, intermedius og rectus femoris) ble testet før og etter intervensjonen med en MRI-scan. Det ble også brukt en DXA-scan for å se på kroppssammensetningen. Før både MRI og DXA måtte deltakerne være fastende i 2 timer, og unngå all form for hard fysisk aktivitet 48 timer i forkant. 
+
+##Analyse og statistikk
+All deskriptiv data er presentert som et gjennomsnitt og standardavvik, med mindre noe annet er beskrevet. 
+
+For å evaluere effektene av treningsvolum (antall sett) på muskelhypertrofi og muskelstyrke ble lineær-blandede effekter (LMM) spesifisert med relative endringer fra baseline som avhengig variabel og antall sett som den viktigste faste effekten. 
+
+P-verdier er regnet ut ved n ANCOA-modell. Statistisk signifikans ble satt til α = 0,05, og all analyse ble utført i R
+
+
+#Resultater
+Totalt førte 12 uker med planlagt styrketrening til en signifikant økning i muskelstyrke på for 31±14%  single sett og 25±13%  for multiple sett, noe som gir en P-verdi på (P\<0,001). Økningen i muskelvekst var også ganske signifikant, på hele 2±4 for single sett og 3,3±4% for multiple sett (P\<0,001).
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
 library(exscidata)
@@ -112,6 +148,87 @@ styrkeplot <- strengthvolume %>% ## Endre tabellen for å gjøre utregninger
  ggplot(aes(time, combined.load, group = paste(participant, sets), color = sets)) + geom_line() + theme_minimal() 
 
 ```
+#Litteraturliste
+@article{Aube2022,
+  title = {Progressive Resistance Training Volume: Effects on Muscle Thickness, Mass and Strength adaptations in Resistance Trained Individuals},
+  author = {{Aube},{D.} and {Rauch}, {A. J.} and {Anand}, {A.} and {Barakat}, {C.} and {Pearson}, {J.} and {Bradshaw} {J.} and {Zazzo}, {S.} and {Ugrinowitsch}, {C.} and {de Sousa}, {E. O.}},
+  year = {2022},
+  month = {03},
+  journal = {Journal of strength and conditioning research},
+  pages = {600-607},
+  doi = {https://doi.org/10.1519/JSC.0000000000003524}  
+  url = {https://journals.lww.com/nsca-jscr/Fulltext/2022/03000/Progressive_Resistance_Training_Volume__Effects_on.2.aspx},
+  langid = {en}
+}
+
+@article{hass2000,
+	title = {Single versus multiple sets in long-term recreational weightlifters:},
+	author = {{Hass}, {C. J.} and {Garzarella}, {L.} and {De Hoyos}, {D.} and {Pollock}, {M. L.}},
+	year = {2000},
+	month = {01},
+	date = {2000-01},
+	journal = {Medicine & Science in Sports & Exercise},
+	pages = {235},
+	doi = {10.1097/00005768-200001000-00035},
+	url = {http://journals.lww.com/00005768-200001000-00035},
+	langid = {en}
+}
+
+@article{heaselgrave2019,
+	title = {Dose-Response Relationship of Weekly Resistance-Training Volume and Frequency on Muscular Adaptations in Trained Men},
+	author = {{Heaselgrave}, {S. R.} and {Blacker}, {J.} and {Smeuninx}, {B.} and {McKendry}, {J.} and {Breen}, {L.}},
+	year = {2019},
+	month = {03},
+	date = {2019-03},
+	journal = {International Journal of Sports Physiology and Performance},
+	pages = {360--368},
+	volume = {14},
+	number = {3},
+	doi = {10.1123/ijspp.2018-0427},
+	url = {https://journals.humankinetics.com/doi/10.1123/ijspp.2018-0427},
+	langid = {en}
+}
+
+@article{Mangine2015,
+	title = {The effect of training volume and intensity on improvements in muscular strength and size in resistance-trained men},
+	author = {{Mangine}, {G. T} and {Hoffman}, {J. R} and {Gonzalez}, {A. M} and {Townsend}, {J. R} and {Wells}, {A. J} and {Jajtner}, {A. R} and {Beyer}, {K. S} and {Boone}, {C. H.} and {Miramonti}, {A. A} and {Wang}, {R.} and {LaMonica}, {M. B.} and {Fukuda}, {D. H.} and {Ratamess}, {N. A.} and {Stout}, {J. R.}},
+	year = {2015},
+	month = {08},
+	date = {2015-08},
+	journal = {Physiological Reports},
+	doi = {https://doi.org/10.14814/phy2.12472},
+	url = {https://physoc.onlinelibrary.wiley.com/doi/full/10.14814/phy2.12472},
+	langid = {en}
+}
+
+@article{schoenfeld2019,
+	title = {Resistance Training Volume Enhances Muscle Hypertrophy but Not Strength in Trained Men},
+	author = {{Schoenfeld}, {B. J.} and {Contreras}, {B.} and {Krieger}, {J.} and {Grgic}, {J.} and {Delcastillo}, {K.} and {Belliard}, {R.} and {Alto}, {A.}},
+	year = {2019},
+	month = {01},
+	date = {2019-01},
+	journal = {Medicine & Science in Sports & Exercise},
+	pages = {94--103},
+	volume = {51},
+	number = {1},
+	doi = {10.1249/MSS.0000000000001764},
+	url = {https://journals.lww.com/00005768-201901000-00013},
+	langid = {en}
+}
+
+
+@article{souza2020,
+	title = {The impact of resistance training volume on muscle size and lean body mass: to infinity and beyond?},
+	author = {{Souza}, {D.} and {Barbalho}, {M.} and {Gentil}, {P.}},
+	year = {2020},
+	date = {2020},
+	journal = {Human Movement},
+	pages = {18--29},
+	volume = {21},
+	number = {4},
+	doi = {10.5114/hm.2020.94199},
+	url = {https://www.termedia.pl/doi/10.5114/hm.2020.94199}
+}
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
